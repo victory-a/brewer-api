@@ -44,4 +44,10 @@ async function main() {
 //     process.exit(1);
 //   });
 
-const server = app.listen(3000, () => console.log(`🚀 Server ready at: http://localhost:3000`));
+const server = app.listen(4000, () => console.log(`🚀 Server ready at: http://localhost:3000`));
+
+// Handle global unhandled promise rejectioxns
+process.on('unhandledRejection', (err: Error, data) => {
+  console.log(`Error ❌: ${err.message}`);
+  server.close(() => process.exit(1));
+});
