@@ -1,5 +1,6 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
+import { env } from 'process';
 
 const app = express();
 
@@ -44,9 +45,10 @@ async function main() {
 //     process.exit(1);
 //   });
 
-const server = app.listen(4000, () => console.log(`🚀 Server ready at: http://localhost:3000`));
+const port = env.PORT;
+const server = app.listen(port, () => console.log(`🚀 Server ready at: http://localhost:${port}`));
 
-// Handle global unhandled promise rejectioxns
+// Handle global unhandled promise rejections
 process.on('unhandledRejection', (err: Error, data) => {
   console.log(`Error ❌: ${err.message}`);
   server.close(() => process.exit(1));
