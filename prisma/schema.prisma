@@ -10,28 +10,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-}
-
-model Profile {
-  id     Int     @id @default(autoincrement())
-  bio    String?
-  user   User    @relation(fields: [userId], references: [id])
-  userId Int     @unique
+enum TokenType {
+  EMAIL
+  API
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+
+  email String @unique
+  username String?
   name    String?
-  posts   Post[]
-  profile Profile?
+  mobile String?
+
+  tokens Token[]
+}
+
+model Token {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  type TokenType 
+  emailToken String? @unique
+
+  valid Boolean @default(true)
+  expiration DateTime
+
+  userId Int
+  user User @relation(fields: [userId], references: [id])
 }
