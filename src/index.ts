@@ -1,12 +1,15 @@
 import express from 'express';
 const { PrismaClient } = require('@prisma/client');
 
+import authRoutes from './routes/authRoutes';
+
 const config = require('./config/index');
 
 const app = express();
 const port = config.port || 4000;
 
 app.use(express.json());
+app.use('/auth', authRoutes);
 
 const prisma = new PrismaClient();
 
