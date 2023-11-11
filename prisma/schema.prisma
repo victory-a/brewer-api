@@ -34,7 +34,7 @@ model Token {
   updatedAt DateTime @updatedAt
 
   type TokenType 
-  emailToken Int? @unique
+  emailToken String? @unique
 
   valid Boolean @default(true)
   expiration DateTime
