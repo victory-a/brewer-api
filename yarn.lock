@@ -1923,6 +1923,11 @@ http-errors@2.0.0:
     statuses "2.0.1"
     toidentifier "1.0.1"
 
+http-status@^1.7.3:
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/http-status/-/http-status-1.7.3.tgz#d6dcc3a5a3fb5b1bfcc6ad2b38af0b7258bc1459"
+  integrity sha512-GS8tL1qHT2nBCMJDYMHGkkkKQLNkIAHz37vgO68XKvzv+XyqB4oh/DfmMHdtRzfqSJPj1xKG2TaELZtlCz6BEQ==
+
 human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"

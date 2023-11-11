@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-const ErrorResponse = require('../utils/errorResponse');
+const { ErrorResponse } = require('../utils/apiResponder');
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const errorHandler = (err, req, res, next) => {

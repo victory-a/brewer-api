@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const config = require('../config/index');
 
 const asyncHandler = require('../utils/asyncHandler');
-const ErrorResponse = require('../utils/errorResponse');
+const { successResponse, ErrorResponse } = require('../utils/apiResponder');
 
 const prisma = new PrismaClient();
 
@@ -53,10 +53,7 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 
     console.log({ createdToken });
     // send token to email
-    return res.status(200).json({
-      success: true,
-      message: 'Successful, check email for token'
-    });
+    successResponse(res, null, 'Successful, check email for token');
   } catch (error) {
     next(new ErrorResponse('Failed to authticate', 400));
   }
@@ -109,13 +106,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
 
     // generate JWT token
     const authToken = generateAuthToken(apiToken.id);
-    res.status(200).json({
-      success: true,
-      message: 'Successfully Authenticated',
-      data: {
-        authToken
-      }
-    });
+    successResponse(res, { authToken }, 'Successfully Authenticated');
   } catch (error) {
     next(new ErrorResponse('Failed to authticate', 400));
   }
