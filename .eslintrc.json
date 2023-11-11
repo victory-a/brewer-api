@@ -19,8 +19,13 @@
     "default-case": 1,
     "no-unused-vars": 1,
     "semi": "off",
+    "padded-blocks": 0,
+    "no-trailing-spaces": 0,
     "@typescript-eslint/semi": 0,
     "@typescript-eslint/no-misused-promises": "warn",
-    "@typescript-eslint/no-var-requires": 0
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/space-before-function-paren": 0,
+    "@typescript-eslint/strict-boolean-expressions": 0,
+    "@typescript-eslint/no-unused-vars": 1
   }
 }

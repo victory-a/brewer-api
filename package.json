@@ -6,7 +6,8 @@
     "start": "node ./src/index.ts",
     "dev": "nodemon ./src/index.ts",
     "migrate": "cross-env MIGRATION_NAME=npx prisma migrate dev --name $MIGRATION_NAME",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prisma-studio": "npx prisma studio"
   },
   "license": "MIT",
   "devDependencies": {
