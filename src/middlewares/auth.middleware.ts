@@ -29,7 +29,7 @@ exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: Nex
     });
 
     if (!dbToken?.valid || dbToken.expiration > new Date()) {
-      next(new ErrorResponse('Token Expired', 401));
+      next(new ErrorResponse('Token Invalid', 401));
     }
 
     req.user = dbToken?.user;

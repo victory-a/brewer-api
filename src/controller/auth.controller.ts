@@ -14,8 +14,8 @@ function generateEmailToken() {
 
 function generateAuthToken(tokenId: number) {
   const jwtPayload = { tokenId };
+
   return jwt.sign(jwtPayload, config.JWT_SECRET, {
-    algorithm: 'HS256',
     noTimestamp: true
   });
 }
