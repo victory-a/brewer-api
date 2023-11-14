@@ -1,6 +1,8 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+const sendEmailToken = require('../services/emailService');
+
 const config = require('../config/index');
 
 const asyncHandler = require('../utils/asyncHandler');
@@ -51,10 +53,13 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
       }
     });
 
-    console.log({ createdToken });
-    // send token to email
+    console.log({ emailToken });
+
+    await sendEmailToken({ email, token: emailToken });
+
     successResponse(res, null, 'Successful, check email for token');
   } catch (error) {
+    console.error('❌', error);
     next(new ErrorResponse('Failed to authticate', 400));
   }
 });
