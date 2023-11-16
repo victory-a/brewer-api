@@ -137,12 +137,40 @@ const currentUser = asyncHandler(
   }
 );
 
-const deleteUser = asyncHandler(
-  async (req: Request & { user?: User }, res: Response, next: NextFunction) => {}
+const updateUser = asyncHandler(
+  async (req: Request & { user?: User }, res: Response, next: NextFunction) => {
+    const { username, name, mobile } = req.body;
+
+    const updateData = {
+      ...(username && { username }),
+      ...(name && { name }),
+      ...(mobile && { mobile })
+    };
+
+    try {
+      const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
+
+      if (!user) {
+        next(new ErrorResponse('User not found', 404));
+      } else {
+        const updatedUser = await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            ...updateData
+          }
+        });
+        successResponse(res, updatedUser, 'Updated User Successfully');
+      }
+    } catch (error) {
+      console.log(error);
+      next(new ErrorResponse('Failed to update user', 400));
+    }
+  }
 );
 
 module.exports = {
   login,
   authenticate,
-  currentUser
+  currentUser,
+  updateUser
 };
