@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 const sendEmailToken = require('../services/emailService');
 
@@ -53,9 +53,9 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
       }
     });
 
-    console.log({ emailToken });
+    console.log({ createdToken });
 
-    await sendEmailToken({ email, token: emailToken });
+    // await sendEmailToken({ email, token: emailToken });
 
     successResponse(res, null, 'Successful, check email for token');
   } catch (error) {
@@ -103,10 +103,9 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
       }
     });
 
-    // invalidate email token
-    await prisma.token.update({
-      where: { id: dbEmailToken?.id },
-      data: { valid: false }
+    // delete email token after user has been authenticated
+    await prisma.token.delete({
+      where: { id: dbEmailToken?.id }
     });
 
     // generate JWT token
@@ -117,7 +116,23 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
   }
 });
 
+const currentUser = asyncHandler(
+  async (req: Request & { user?: User }, res: Response, next: NextFunction) => {
+    try {
+      const user = req.user;
+      successResponse(res, user, 'Successfully Authenticated');
+    } catch (error) {
+      next(new ErrorResponse('Internal Server Error', 500));
+    }
+  }
+);
+
+const deleteUser = asyncHandler(
+  async (req: Request & { user?: User }, res: Response, next: NextFunction) => {}
+);
+
 module.exports = {
   login,
-  authenticate
+  authenticate,
+  currentUser
 };

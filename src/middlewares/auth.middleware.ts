@@ -5,6 +5,7 @@ import { PrismaClient, type User } from '@prisma/client';
 const config = require('../config/index');
 
 const asyncHandler = require('../utils/asyncHandler');
+const { ErrorResponse } = require('../utils/apiResponder');
 
 const prisma = new PrismaClient();
 
@@ -28,7 +29,7 @@ exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: Nex
       include: { user: true }
     });
 
-    if (!dbToken?.valid || dbToken.expiration > new Date()) {
+    if (!dbToken?.valid || dbToken.expiration < new Date()) {
       next(new ErrorResponse('Token Invalid', 401));
     }
 
