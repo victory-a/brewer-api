@@ -4,10 +4,15 @@ const { PrismaClient } = require('@prisma/client');
 
 const authRoutes = require('./routes/auth.route');
 
+const purgeDatabase = require('./scripts/purgeDatabase');
+
 const errorHandler = require('./middlewares/error.middleware');
 const config = require('./config/index');
 
 const app = express();
+
+purgeDatabase();
+
 const port = config.port ?? 4000;
 
 app.use(express.json());
