@@ -9,7 +9,7 @@ function purgeDatabase() {
     try {
       await prisma.token.deleteMany({
         where: {
-          type: 'API',
+          type: 'JWT',
           expiration: {
             lt: new Date().toISOString()
           }

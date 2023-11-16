@@ -11,8 +11,8 @@ datasource db {
 }
 
 enum TokenType {
-  EMAIL
-  API
+  JWT
+  OTP
 }
 
 model User {
@@ -34,7 +34,7 @@ model Token {
   updatedAt DateTime @updatedAt
 
   type TokenType 
-  emailToken String? @unique
+  OTP String? @unique
 
   valid Boolean @default(true)
   expiration DateTime

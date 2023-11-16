@@ -1,3 +1,6 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable indent */
+/* eslint-disable @typescript-eslint/indent */
 import { type Request, type Response, type NextFunction } from 'express';
 import { PrismaClient, type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
@@ -10,11 +13,11 @@ const { successResponse, ErrorResponse } = require('../utils/apiResponder');
 
 const prisma = new PrismaClient();
 
-function generateEmailToken() {
+function generateOTP() {
   return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
-function generateAuthToken(tokenId: number) {
+function generateJWT(tokenId: number) {
   const jwtPayload = { tokenId };
 
   return jwt.sign(jwtPayload, config.JWT_SECRET, {
@@ -32,14 +35,14 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
     return;
   }
 
-  const emailToken = generateEmailToken();
-  const expiration = new Date(new Date().getTime() + config.EMAIL_TOKEN_VALIDITY * 60 * 1000);
+  const OTP = generateOTP();
+  const expiration = new Date(new Date().getTime() + config.OTP_TOKEN_VALIDITY * 60 * 1000);
 
   try {
     const createdToken = await prisma.token.create({
       data: {
-        type: 'EMAIL',
-        emailToken,
+        type: 'OTP',
+        OTP,
         expiration,
         user: {
           connectOrCreate: {
@@ -69,48 +72,55 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
   const { email, emailToken } = req.body;
 
   try {
-    const dbEmailToken = await prisma.token.findUnique({
+    const userOTP = await prisma.token.findUnique({
       where: {
-        emailToken
+        OTP: emailToken
       },
       include: {
         user: true
       }
     });
 
-    if (!dbEmailToken || !dbEmailToken.valid) {
-      next(new ErrorResponse('UnAuthorized', 401));
+    switch (true) {
+      case !userOTP || !userOTP.valid:
+        next(new ErrorResponse('UnAuthorized', 401));
+        break;
+
+      case userOTP && userOTP.expiration < new Date():
+        next(new ErrorResponse('Token Expired', 401));
+        break;
+
+      case userOTP?.user?.email !== email:
+        next(new ErrorResponse('UnAuthorized', 401));
+        break;
+
+      default:
+        const expiration = new Date(
+          new Date().getTime() + config.JWT_TOKEN_VALIDITY * 60 * 60 * 1000
+        );
+
+        const apiToken = await prisma.token.create({
+          data: {
+            type: 'JWT',
+            expiration,
+            user: {
+              connect: { email }
+            }
+          }
+        });
+
+        const token = generateJWT(apiToken.id);
+        successResponse(res, { token }, 'Successfully Authenticated');
+
+        break;
     }
 
-    if (dbEmailToken && dbEmailToken.expiration < new Date()) {
-      next(new ErrorResponse('Token Expired', 401));
-    }
-
-    if (dbEmailToken?.user?.email !== email) {
-      next(new ErrorResponse('UnAuthorized', 401));
-    }
-
-    // generate API token
-    const expiration = new Date(new Date().getTime() + config.AUTH_TOKEN_VALIDITY * 60 * 60 * 1000);
-
-    const apiToken = await prisma.token.create({
-      data: {
-        type: 'API',
-        expiration,
-        user: {
-          connect: { email }
-        }
+    await prisma.token.deleteMany({
+      where: {
+        type: 'OTP',
+        userId: userOTP?.userId
       }
     });
-
-    // delete email token after user has been authenticated
-    await prisma.token.delete({
-      where: { id: dbEmailToken?.id }
-    });
-
-    // generate JWT token
-    const authToken = generateAuthToken(apiToken.id);
-    successResponse(res, { authToken }, 'Successfully Authenticated');
   } catch (error) {
     next(new ErrorResponse('Failed to authticate', 400));
   }
@@ -120,7 +130,7 @@ const currentUser = asyncHandler(
   async (req: Request & { user?: User }, res: Response, next: NextFunction) => {
     try {
       const user = req.user;
-      successResponse(res, user, 'Successfully Authenticated');
+      successResponse(res, user, 'Success');
     } catch (error) {
       next(new ErrorResponse('Internal Server Error', 500));
     }
