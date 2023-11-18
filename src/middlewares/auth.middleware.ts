@@ -30,12 +30,12 @@ exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: Nex
     });
 
     if (!dbToken?.valid || dbToken.expiration < new Date()) {
-      next(new ErrorResponse('Token Invalid', 401));
+      next(new ErrorResponse('UnAuthorized', 401));
     }
 
     req.user = dbToken?.user;
   } catch (error) {
-    next(new ErrorResponse('Failed to authticate', 400));
+    next(new ErrorResponse('UnAuthorized', 401));
   }
   next();
 });
