@@ -69,12 +69,12 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 
 // validate email and token, return jwt
 const authenticate = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-  const { email, emailToken } = req.body;
+  const { email, otp } = req.body;
 
   try {
     const userOTP = await prisma.token.findUnique({
       where: {
-        OTP: emailToken
+        OTP: otp
       },
       include: {
         user: true
@@ -162,7 +162,6 @@ const updateUser = asyncHandler(
         successResponse(res, updatedUser, 'Updated User Successfully');
       }
     } catch (error) {
-      console.log(error);
       next(new ErrorResponse('Failed to update user', 400));
     }
   }
