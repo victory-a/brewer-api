@@ -3,9 +3,9 @@ const cron = require('node-cron');
 
 const prisma = new PrismaClient();
 
-// purge expired tokens every day at 3AM
+// purge expired tokens every day at 12AM
 function purgeDatabase() {
-  return cron.schedule('0 3 * * *', async () => {
+  return cron.schedule('0 0 * * *', async () => {
     try {
       await prisma.token.deleteMany({
         where: {

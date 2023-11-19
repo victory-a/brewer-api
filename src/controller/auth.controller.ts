@@ -4,12 +4,12 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { PrismaClient, type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import { successResponse, errorResponse } from '../utils/apiResponder';
 const sendEmailToken = require('../services/emailService');
 
 const config = require('../config/index');
 
 const asyncHandler = require('../utils/asyncHandler');
-const { successResponse, ErrorResponse } = require('../utils/apiResponder');
 
 const prisma = new PrismaClient();
 
@@ -31,7 +31,7 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   if (!email) {
-    next(new ErrorResponse('Email is required', 400));
+    errorResponse(res, 'Email is required', 400);
     return;
   }
 
@@ -58,12 +58,12 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 
     console.log({ createdToken });
 
-    // await sendEmailToken({ email, token: emailToken });
+    // await sendEmailToken({ email, token: OTP });
 
-    successResponse(res, null, 'Successful, check email for token');
+    successResponse(res, {}, 'Successful, check email for token');
   } catch (error) {
     console.error('❌', error);
-    next(new ErrorResponse('Failed to authticate', 400));
+    errorResponse(res, 'Internal Server Error', 500);
   }
 });
 
@@ -83,15 +83,15 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
 
     switch (true) {
       case !userOTP || !userOTP.valid:
-        next(new ErrorResponse('UnAuthorized', 401));
+        errorResponse(res, 'UnAuthorized', 401);
         break;
 
       case userOTP && userOTP.expiration < new Date():
-        next(new ErrorResponse('Token Expired', 401));
+        errorResponse(res, 'Token Expired', 401);
         break;
 
       case userOTP?.user?.email !== email:
-        next(new ErrorResponse('UnAuthorized', 401));
+        errorResponse(res, 'UnAuthorized', 401);
         break;
 
       default:
@@ -111,7 +111,6 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
 
         const token = generateJWT(apiToken.id);
         successResponse(res, { token }, 'Successfully Authenticated');
-
         break;
     }
 
@@ -122,7 +121,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
       }
     });
   } catch (error) {
-    next(new ErrorResponse('Failed to authticate', 400));
+    errorResponse(res, 'Internal Server Error', 500);
   }
 });
 
@@ -132,7 +131,7 @@ const currentUser = asyncHandler(
       const user = req.user;
       successResponse(res, user, 'Success');
     } catch (error) {
-      next(new ErrorResponse('Internal Server Error', 500));
+      errorResponse(res, 'Internal Server Error', 500);
     }
   }
 );
@@ -151,7 +150,7 @@ const updateUser = asyncHandler(
       const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
 
       if (!user) {
-        next(new ErrorResponse('User not found', 404));
+        errorResponse(res, 'User not found', 404);
       } else {
         const updatedUser = await prisma.user.update({
           where: { id: user.id },
@@ -162,7 +161,7 @@ const updateUser = asyncHandler(
         successResponse(res, updatedUser, 'Updated User Successfully');
       }
     } catch (error) {
-      next(new ErrorResponse('Failed to update user', 400));
+      errorResponse(res, 'Internal Server Error', 500);
     }
   }
 );

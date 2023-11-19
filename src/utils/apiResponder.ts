@@ -21,6 +21,16 @@ const successResponse = (res: Response, payload = {}, message = 'Success') => {
   ApiResponder(res, httpStatus.OK, message, payload);
 };
 
+const errorResponse = (
+  res: Response,
+  message = '',
+  statusCode = httpStatus.INTERNAL_SERVER_ERROR
+) => {
+  const httpMessage = message ?? httpStatus[statusCode];
+
+  ApiResponder(res, statusCode, httpMessage, null);
+};
+
 class ErrorResponse extends Error {
   statusCode: number;
   constructor(message: string, statusCode: number) {
@@ -29,4 +39,4 @@ class ErrorResponse extends Error {
   }
 }
 
-module.exports = { ApiResponder, successResponse, ErrorResponse };
+export { ApiResponder, successResponse, errorResponse, ErrorResponse };
