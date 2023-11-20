@@ -1,7 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable indent */
-/* eslint-disable @typescript-eslint/indent */
-import { type Request, type Response, type NextFunction } from 'express';
+import { type Request, type Response } from 'express';
 import { PrismaClient, type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { successResponse, errorResponse } from '../utils/apiResponder';
@@ -26,7 +25,7 @@ function generateJWT(tokenId: number) {
 }
 
 // create user if none and send otp to email
-const login = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, username } = req.body;
 
   // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -68,7 +67,7 @@ const login = asyncHandler(async (req: Request, res: Response, next: NextFunctio
 });
 
 // validate email and token, return jwt
-const authenticate = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+const authenticate = asyncHandler(async (req: Request, res: Response) => {
   const { email, otp } = req.body;
 
   try {
@@ -110,7 +109,8 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
         });
 
         const token = generateJWT(apiToken.id);
-        successResponse(res, { token }, 'Successfully Authenticated');
+
+        successResponse(res, { token, user: userOTP?.user }, 'Successfully Authenticated');
         break;
     }
 
@@ -125,46 +125,42 @@ const authenticate = asyncHandler(async (req: Request, res: Response, next: Next
   }
 });
 
-const currentUser = asyncHandler(
-  async (req: Request & { user?: User }, res: Response, next: NextFunction) => {
-    try {
-      const user = req.user;
-      successResponse(res, user, 'Success');
-    } catch (error) {
-      errorResponse(res, 'Internal Server Error', 500);
-    }
+const currentUser = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
+  try {
+    const user = req.user;
+    successResponse(res, user, 'Success');
+  } catch (error) {
+    errorResponse(res, 'Internal Server Error', 500);
   }
-);
+});
 
-const updateUser = asyncHandler(
-  async (req: Request & { user?: User }, res: Response, next: NextFunction) => {
-    const { username, name, mobile } = req.body;
+const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
+  const { username, name, mobile } = req.body;
 
-    const updateData = {
-      ...(username && { username }),
-      ...(name && { name }),
-      ...(mobile && { mobile })
-    };
+  const updateData = {
+    ...(username && { username }),
+    ...(name && { name }),
+    ...(mobile && { mobile })
+  };
 
-    try {
-      const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
+  try {
+    const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
 
-      if (!user) {
-        errorResponse(res, 'User not found', 404);
-      } else {
-        const updatedUser = await prisma.user.update({
-          where: { id: user.id },
-          data: {
-            ...updateData
-          }
-        });
-        successResponse(res, updatedUser, 'Updated User Successfully');
-      }
-    } catch (error) {
-      errorResponse(res, 'Internal Server Error', 500);
+    if (!user) {
+      errorResponse(res, 'User not found', 404);
+    } else {
+      const updatedUser = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          ...updateData
+        }
+      });
+      successResponse(res, updatedUser, 'Updated User Successfully');
     }
+  } catch (error) {
+    errorResponse(res, 'Internal Server Error', 500);
   }
-);
+});
 
 module.exports = {
   login,
