@@ -5,7 +5,7 @@ import { PrismaClient, type User } from '@prisma/client';
 const config = require('../config/index');
 
 const asyncHandler = require('../utils/asyncHandler');
-const { ErrorResponse } = require('../utils/apiResponder');
+const { errorResponse } = require('../utils/apiResponder');
 
 const prisma = new PrismaClient();
 
@@ -17,8 +17,7 @@ exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: Nex
   const jwtToken = authHeader?.split(' ')[1];
 
   if (!jwtToken) {
-    next(new ErrorResponse('UnAuthorized', 401));
-    return;
+    return errorResponse(res, 'Internal Server Error', 500);
   }
 
   try {
@@ -30,12 +29,12 @@ exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: Nex
     });
 
     if (!dbToken?.valid || dbToken.expiration < new Date()) {
-      next(new ErrorResponse('UnAuthorized', 401));
+      return errorResponse(res, 'UnAuthorized', 401);
     }
 
     req.user = dbToken?.user;
+    next();
   } catch (error) {
-    next(new ErrorResponse('UnAuthorized', 401));
+    return errorResponse(res, 'UnAuthorized', 401);
   }
-  next();
 });

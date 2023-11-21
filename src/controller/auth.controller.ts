@@ -38,6 +38,16 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   const expiration = new Date(new Date().getTime() + config.OTP_TOKEN_VALIDITY * 60 * 1000);
 
   try {
+    // delete all existing tokens for user
+    await prisma.token.deleteMany({
+      where: {
+        type: 'OTP',
+        user: {
+          email
+        }
+      }
+    });
+
     const createdToken = await prisma.token.create({
       data: {
         type: 'OTP',
@@ -82,7 +92,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
 
     switch (true) {
       case !userOTP || !userOTP.valid:
-        errorResponse(res, 'UnAuthorized', 401);
+        errorResponse(res, 'Invalid Token', 401);
         break;
 
       case userOTP && userOTP.expiration < new Date():
@@ -110,16 +120,17 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
 
         const token = generateJWT(apiToken.id);
 
+        // delete all existing tokens for user on success
+        await prisma.token.deleteMany({
+          where: {
+            type: 'OTP',
+            userId: userOTP?.userId
+          }
+        });
+
         successResponse(res, { token, user: userOTP?.user }, 'Successfully Authenticated');
         break;
     }
-
-    await prisma.token.deleteMany({
-      where: {
-        type: 'OTP',
-        userId: userOTP?.userId
-      }
-    });
   } catch (error) {
     errorResponse(res, 'Internal Server Error', 500);
   }
