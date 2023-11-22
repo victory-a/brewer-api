@@ -1,21 +1,17 @@
 import express from 'express';
-import morgan from 'morgan';
 const { PrismaClient } = require('@prisma/client');
 
 const authRoutes = require('./routes/auth.route');
 
 const purgeDatabase = require('./scripts/purgeDatabase');
+const logger = require('./utils/logger');
 
 const errorHandler = require('./middlewares/error.middleware');
 const config = require('./config/index');
 
 const app = express();
 
-// DEV LOGGER
-morgan.token('req-headers', function (req, res) {
-  return JSON.stringify(req.headers);
-});
-process.env.NODE_ENV === 'development' && app.use(morgan(':method :url :status :req-headers'));
+logger(app);
 
 purgeDatabase();
 
