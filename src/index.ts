@@ -13,8 +13,6 @@ const app = express();
 
 logger(app);
 
-purgeDatabase();
-
 const port = config.port ?? 4000;
 
 app.use(express.json());
@@ -23,6 +21,7 @@ app.use('/auth', authRoutes);
 app.use(errorHandler);
 
 const prisma = new PrismaClient();
+purgeDatabase(prisma);
 
 const server = app.listen(port, () => {
   console.log(`🚀 Server ready at: http://localhost:${port}`);
