@@ -3,12 +3,13 @@
 import { type Request, type Response } from 'express';
 import { PrismaClient, type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+
 import { successResponse, errorResponse } from '../utils/apiResponder';
+import asyncHandler from '../utils/asyncHandler';
+
 const sendEmailToken = require('../services/emailService');
 
 const config = require('../config/index');
-
-const asyncHandler = require('../utils/asyncHandler');
 
 const prisma = new PrismaClient();
 

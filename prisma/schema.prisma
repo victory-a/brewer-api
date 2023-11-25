@@ -42,3 +42,34 @@ model Token {
   userId Int
   user User @relation(fields: [userId], references: [id])
 }
+
+enum Size {
+  S
+  M
+  L
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+  price Decimal  @db.Decimal(6, 2) // Decimal type with precision 10 and scale 2
+  description String @db.VarChar(255)
+  variant String 
+  image String
+
+  sizes Size[]
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  address String
+  totalPrice Decimal  @db.Decimal(6, 2)
+  deliveryFee  Decimal  @db.Decimal(6, 2) 
+
+}

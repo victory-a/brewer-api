@@ -2,16 +2,15 @@ import { type Request, type Response, type NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { PrismaClient, type User } from '@prisma/client';
 
-const config = require('../config/index');
+import asyncHandler from '../utils/asyncHandler';
 
-const asyncHandler = require('../utils/asyncHandler');
+const config = require('../config/index');
 const { errorResponse } = require('../utils/apiResponder');
 
 const prisma = new PrismaClient();
 
 type AuthRequest = Request & { user?: User };
 
-// type AuthRequest = Request & {user?: User}
 exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   const jwtToken = authHeader?.split(' ')[1];
