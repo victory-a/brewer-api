@@ -73,7 +73,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     successResponse(res, {}, 'Successful, check email for token');
   } catch (error) {
     console.error('❌', error);
-    errorResponse(res, 'Internal Server Error', 500);
+    errorResponse(res, 'Failed to login', 400);
   }
 });
 
@@ -133,7 +133,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
         break;
     }
   } catch (error) {
-    errorResponse(res, 'Internal Server Error', 500);
+    errorResponse(res, 'Failed to authenticate', 400);
   }
 });
 
@@ -142,7 +142,7 @@ const currentUser = asyncHandler(async (req: Request & { user?: User }, res: Res
     const user = req.user;
     successResponse(res, user, 'Success');
   } catch (error) {
-    errorResponse(res, 'Internal Server Error', 500);
+    errorResponse(res, 'Failed to get user', 400);
   }
 });
 
@@ -170,7 +170,7 @@ const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Resp
       successResponse(res, updatedUser, 'Updated User Successfully');
     }
   } catch (error) {
-    errorResponse(res, 'Internal Server Error', 500);
+    errorResponse(res, 'Failed to update User', 400);
   }
 });
 

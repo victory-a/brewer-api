@@ -2,6 +2,7 @@ import express from 'express';
 const { PrismaClient } = require('@prisma/client');
 
 const authRoutes = require('./routes/auth.route');
+const productRoutes = require('./routes/product.route');
 
 const purgeDatabase = require('./scripts/purgeDatabase');
 const logger = require('./utils/logger');
@@ -17,6 +18,7 @@ const port = config.port ?? 4000;
 
 app.use(express.json());
 app.use('/auth', authRoutes);
+app.use('/product', productRoutes);
 
 app.use(errorHandler);
 

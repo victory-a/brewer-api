@@ -59,8 +59,8 @@ model Product {
   description String @db.VarChar(255)
   variant String 
   image String
-
   sizes Size[]
+  rating Decimal @db.Decimal(2, 1)
 }
 
 model Order {
