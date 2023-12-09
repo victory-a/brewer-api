@@ -105,6 +105,13 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
         break;
 
       default:
+        // delete all existing tokens for user on success
+        await prisma.token.deleteMany({
+          where: {
+            userId: userOTP?.userId
+          }
+        });
+
         const expiration = new Date(
           new Date().getTime() + config.JWT_TOKEN_VALIDITY * 60 * 60 * 1000
         );
@@ -118,16 +125,9 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
             }
           }
         });
+        console.log({ apiToken });
 
         const token = generateJWT(apiToken.id);
-
-        // delete all existing tokens for user on success
-        await prisma.token.deleteMany({
-          where: {
-            type: 'OTP',
-            userId: userOTP?.userId
-          }
-        });
 
         successResponse(res, { token, user: userOTP?.user }, 'Successfully Authenticated');
         break;
