@@ -70,7 +70,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
     // await sendEmailToken({ email, token: OTP });
 
-    successResponse(res, {}, 'Successful, check email for token');
+    successResponse(res, null, 'Successful, check email for token');
   } catch (error) {
     console.error('❌', error);
     errorResponse(res, 'Failed to login', 400);

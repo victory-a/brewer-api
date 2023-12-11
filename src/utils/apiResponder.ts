@@ -17,7 +17,7 @@ const ApiResponder = (
   });
 };
 
-const successResponse = (res: Response, payload = {}, message = 'Success') => {
+const successResponse = (res: Response, payload: any = null, message = 'Success') => {
   ApiResponder(res, httpStatus.OK, message, payload);
 };
 
