@@ -13,62 +13,70 @@ enum TokenType {
 }
 
 model User {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   username String?
-  email String @unique
-  name    String?
-  mobile String?
+  email    String  @unique
+  name     String?
+  mobile   String?
 
   tokens Token[]
 }
 
 model Token {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  type TokenType 
-  OTP String? @unique
+  type TokenType
+  OTP  String?   @unique
 
-  valid Boolean @default(true)
+  valid      Boolean  @default(true)
   expiration DateTime
 
   userId Int
-  user User @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
 }
 
 enum Size {
-  S
-  M
-  L
+  small
+  medium
+  large
 }
 
 model Product {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name String
-  price Decimal  @db.Decimal(6, 2) // Decimal type with precision 10 and scale 2
-  description String @db.VarChar(255)
-  variant String 
-  image String
-  sizes Size[]
-  rating Decimal @db.Decimal(2, 1)
+  name              String
+  description       String   @db.VarChar(255)
+  variant           String
+  image             String
+  sizes             Size[]
+  rating            Decimal  @db.Decimal(2, 1)
+  basePrice         Decimal  @db.Decimal(6, 2)
+  additionalPricing Pricing?
+}
 
-  additionalPricing Json
+model Pricing {
+  id     Int     @id @default(autoincrement())
+  small  Decimal @db.Decimal(6, 2)
+  medium Decimal @db.Decimal(6, 2)
+  large  Decimal @db.Decimal(6, 2)
+
+  productId Int     @unique
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 model Order {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  address String
-  totalPrice Decimal  @db.Decimal(6, 2)
-  deliveryFee  Decimal  @db.Decimal(6, 2) 
-
+  address     String
+  totalPrice  Decimal @db.Decimal(6, 2)
+  deliveryFee Decimal @db.Decimal(6, 2)
 }
