@@ -51,24 +51,15 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name              String
-  description       String   @db.VarChar(255)
-  variant           String
-  image             String
-  sizes             Size[]
-  rating            Decimal  @db.Decimal(2, 1)
-  basePrice         Decimal  @db.Decimal(6, 2)
-  additionalPricing Pricing?
-}
-
-model Pricing {
-  id     Int     @id @default(autoincrement())
-  small  Decimal @db.Decimal(6, 2)
-  medium Decimal @db.Decimal(6, 2)
-  large  Decimal @db.Decimal(6, 2)
-
-  productId Int     @unique
-  product   Product @relation(fields: [productId], references: [id])
+  name        String
+  description String   @db.VarChar(255)
+  variant     String
+  image       String
+  sizes       Size[]
+  rating      Decimal  @db.Decimal(2, 1)
+  basePrice   Decimal  @db.Decimal(6, 2)
+  mediumPrice Decimal? @db.Decimal(6, 2)
+  largePrice  Decimal? @db.Decimal(6, 2)
 }
 
 model Order {
