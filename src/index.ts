@@ -10,6 +10,8 @@ const logger = require('./utils/logger');
 const errorHandler = require('./middlewares/error.middleware');
 const config = require('./config/index');
 
+const prisma = require('./models/db');
+
 const app = express();
 
 logger(app);
@@ -22,7 +24,6 @@ app.use('/product', productRoutes);
 
 app.use(errorHandler);
 
-const prisma = new PrismaClient();
 purgeDatabase(prisma);
 
 const server = app.listen(port, () => {

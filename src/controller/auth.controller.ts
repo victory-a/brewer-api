@@ -1,17 +1,16 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable indent */
 import { type Request, type Response } from 'express';
-import { PrismaClient, type User } from '@prisma/client';
+import { type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
-
 import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
+
+const prisma = require('../models/db');
 
 const sendEmailToken = require('../services/emailService');
 
 const config = require('../config/index');
-
-const prisma = new PrismaClient();
 
 function generateOTP() {
   return Math.floor(1000 + Math.random() * 9000).toString();
@@ -92,7 +91,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
     });
 
     switch (true) {
-      case !userOTP || !userOTP.valid:
+      case !userOTP?.valid:
         errorResponse(res, 'Invalid Token', 401);
         break;
 

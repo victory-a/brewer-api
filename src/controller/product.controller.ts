@@ -1,10 +1,10 @@
 import { type Request, type Response } from 'express';
-import { PrismaClient, type Product } from '@prisma/client';
+import { type Product } from '@prisma/client';
 
 import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
 
-const prisma = new PrismaClient();
+const prisma = require('../models/db');
 
 const createProduct = asyncHandler(async (req: Request, res: Response) => {
   const product = req.body as Product;
