@@ -1,0 +1,112 @@
+[
+  {
+    "name": "coffee 1",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.33,
+    "mediumPrice": 0.5,
+    "largePrice": 0.8
+  },
+  {
+    "name": "coffee 2",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.8,
+    "mediumPrice": 0.2,
+    "largePrice": 0.4
+  },
+  {
+    "name": "coffee 3",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.5,
+    "mediumPrice":0.4,
+    "largePrice": 0.7
+  },
+  {
+    "name": "coffee 4",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 2,
+    "mediumPrice": 0.4,
+    "largePrice": 0.5
+  },
+  {
+    "name": "coffee 5",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.33,
+    "mediumPrice": 0.9,
+    "largePrice": 1
+  },
+  {
+    "name": "coffee 6",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.8,
+    "mediumPrice": 1.2,
+    "largePrice": 1.9
+  },
+  {
+    "name": "coffee 7",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 3,
+    "mediumPrice": 0.6,
+    "largePrice": 0.9
+  },
+  {
+    "name": "coffee 8",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.33,
+    "mediumPrice": 0.4,
+    "largePrice": 1
+  },
+  {
+    "name": "coffee 9",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.33,
+    "mediumPrice": 0.5,
+    "largePrice": 1
+  },
+  {
+    "name": "coffee 10",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eum",
+    "variant": "milk",
+    "image": "http://google.com",
+    "sizes": ["small", "medium", "large"],
+    "rating": 3.5,
+    "basePrice": 1.33,
+    "mediumPrice": 1.8,
+    "largePrice": 2
+  }
+]
