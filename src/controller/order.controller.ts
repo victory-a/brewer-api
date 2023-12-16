@@ -20,6 +20,7 @@ const createOrder = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+const updateOrder = asyncHandler(async (req: Request, res: Response) => {});
 module.exports = {
   createOrder
 };

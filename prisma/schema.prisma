@@ -62,6 +62,11 @@ model Product {
   largePrice  Decimal? @db.Decimal(6, 2)
 }
 
+enum OrderStatus {
+  pending
+  completed
+  cancelled
+}
 model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -70,4 +75,5 @@ model Order {
   address     String
   totalPrice  Decimal @db.Decimal(6, 2)
   deliveryFee Decimal @db.Decimal(6, 2)
+
 }
