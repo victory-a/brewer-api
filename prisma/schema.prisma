@@ -60,6 +60,8 @@ model Product {
   basePrice   Decimal  @db.Decimal(6, 2)
   mediumPrice Decimal? @db.Decimal(6, 2)
   largePrice  Decimal? @db.Decimal(6, 2)
+
+  orders OrderAndProducts[]
 }
 
 enum OrderStatus {
@@ -77,9 +79,17 @@ model Order {
   address     String
   totalPrice  Decimal @db.Decimal(6, 2)
   deliveryFee Decimal @db.Decimal(6, 2)
+
+  products OrderAndProducts[]
 }
 
-model OrderProducts {
-  orderId Int @unique
-  // order
+model OrderAndProducts {
+  @@id([productId, orderId])
+  
+  orderId Int
+  order Order @relation(fields: [orderId], references: [id])
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+
 }
