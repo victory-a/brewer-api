@@ -7,7 +7,7 @@ function logger(app: Express) {
     return JSON.stringify(req.headers);
   });
   // process.env.NODE_ENV === 'development' && app.use(morgan(':method :url :status :req-headers'));
-  process.env.NODE_ENV === 'development' && app.use(morgan(':method :url :status :req-headers'));
+  process.env.NODE_ENV === 'development' && app.use(morgan(':method :url'));
 }
 
 module.exports = logger;
