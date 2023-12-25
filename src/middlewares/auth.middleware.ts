@@ -5,21 +5,22 @@ import { type User } from '@prisma/client';
 import asyncHandler from '../utils/asyncHandler';
 import prisma from '../models/db';
 
-const config = require('../config/index');
-const { errorResponse } = require('../utils/apiResponder');
+import config from '../config/index';
+import { errorResponse } from '../utils/apiResponder';
 
 type AuthRequest = Request & { user?: User };
 
-exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const protect = asyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   const jwtToken = authHeader?.split(' ')[1];
 
   if (!jwtToken) {
-    return errorResponse(res, 'Internal Server Error', 500);
+    errorResponse(res, 'Internal Server Error', 500);
+    return;
   }
 
   try {
-    const payload = jwt.verify(jwtToken, config.JWT_SECRET) as { tokenId: number };
+    const payload = jwt.verify(jwtToken, config.JWT_SECRET) as unknown as { tokenId: number };
 
     const dbToken = await prisma.token.findUnique({
       where: { id: payload.tokenId },
@@ -27,12 +28,13 @@ exports.protect = asyncHandler(async (req: AuthRequest, res: Response, next: Nex
     });
 
     if (!dbToken?.valid || dbToken.expiration < new Date()) {
-      return errorResponse(res, 'UnAuthorized', 401);
+      errorResponse(res, 'UnAuthorized', 401);
+      return;
     }
 
     req.user = dbToken?.user;
     next();
   } catch (error) {
-    return errorResponse(res, 'UnAuthorized', 401);
+    errorResponse(res, 'UnAuthorized', 401);
   }
 });

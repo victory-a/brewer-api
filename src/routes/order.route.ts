@@ -1,13 +1,13 @@
 import { Router } from 'express';
-const router = Router();
+import { protect } from '../middlewares/auth.middleware';
 
-const {
+import {
   createOrder,
   getAllOrders,
   getOrder,
   updateOrderStatus
-} = require('../controller/order.controller');
-const { protect } = require('../middlewares/auth.middleware');
+} from '../controller/order.controller';
+const router = Router();
 
 router.post('/create', protect, createOrder);
 
@@ -17,4 +17,4 @@ router.get('/:id', protect, getOrder);
 
 router.put('/status/:id', protect, updateOrderStatus);
 
-module.exports = router;
+export default router;

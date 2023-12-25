@@ -4,13 +4,13 @@ import prisma from './models/db';
 
 import errorHandler from './middlewares/error.middleware';
 
-const authRoutes = require('./routes/auth.route');
-const productRoutes = require('./routes/product.route');
-const orderRoutes = require('./routes/order.route');
+import authRoutes from './routes/auth.route';
+import productRoutes from './routes/product.route';
+import orderRoutes from './routes/order.route';
 
-const purgeDatabase = require('./scripts/purgeDatabase');
-const logger = require('./utils/logger');
-const config = require('./config/index');
+import purgeDatabase from './scripts/purgeDatabase';
+import logger from './utils/logger';
+import config from './config/index';
 
 const app = express();
 

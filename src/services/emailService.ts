@@ -1,4 +1,4 @@
-const config = require('../config/index');
+import config from '../config/index';
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 
 const ses = new SESClient({ region: config.AWS_SES_REGION });
@@ -46,4 +46,4 @@ async function sendEmailToken({ email, token }: { email: string; token: string }
   }
 }
 
-module.exports = sendEmailToken;
+export default sendEmailToken;

@@ -19,4 +19,4 @@ function purgeDatabase(prisma: any) {
   });
 }
 
-module.exports = purgeDatabase;
+export default purgeDatabase;
