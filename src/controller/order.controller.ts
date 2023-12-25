@@ -48,11 +48,11 @@ const getAllOrders = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const updateOrder = asyncHandler(async (req: Request, res: Response) => {});
+const updateOrderStatus = asyncHandler(async (req: Request, res: Response) => {});
 
 module.exports = {
   createOrder,
   getAllOrders,
   getOrder,
-  updateOrder
+  updateOrderStatus
 };

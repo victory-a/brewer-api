@@ -5,7 +5,7 @@ const {
   createOrder,
   getAllOrders,
   getOrder,
-  updateOrder
+  updateOrderStatus
 } = require('../controller/order.controller');
 const { protect } = require('../middlewares/auth.middleware');
 
@@ -15,6 +15,6 @@ router.get('/', protect, getAllOrders);
 
 router.get('/:id', protect, getOrder);
 
-router.put('/:id', protect, updateOrder);
+router.put('/status/:id', protect, updateOrderStatus);
 
 module.exports = router;

@@ -27,12 +27,6 @@ function generateJWT(tokenId: number) {
 const login = asyncHandler(async (req: Request, res: Response) => {
   const { email, username } = req.body;
 
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!email) {
-    errorResponse(res, 'Email is required', 400);
-    return;
-  }
-
   const OTP = generateOTP();
   const expiration = new Date(new Date().getTime() + config.OTP_TOKEN_VALIDITY * 60 * 1000);
 

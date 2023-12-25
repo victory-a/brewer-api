@@ -2,14 +2,14 @@ import express from 'express';
 
 import prisma from './models/db';
 
+import errorHandler from './middlewares/error.middleware';
+
 const authRoutes = require('./routes/auth.route');
 const productRoutes = require('./routes/product.route');
 const orderRoutes = require('./routes/order.route');
 
 const purgeDatabase = require('./scripts/purgeDatabase');
 const logger = require('./utils/logger');
-
-const errorHandler = require('./middlewares/error.middleware');
 const config = require('./config/index');
 
 const app = express();
