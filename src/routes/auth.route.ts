@@ -13,7 +13,8 @@ const router = Router();
 router.post('/login', validate(loginValidation), login);
 router.post('/authenticate', validate(authenticateValidation), authenticate);
 
+router.post('/update-user', protect, validate(updateUserValidation), updateUser);
+
 router.get('/current-user', protect, currentUser);
-router.post('/update-user', validate(updateUserValidation), protect, updateUser);
 
 export default router;

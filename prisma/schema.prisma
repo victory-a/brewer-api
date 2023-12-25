@@ -53,13 +53,13 @@ model Product {
 
   name        String
   description String   @db.VarChar(255)
-  variant     String
+  variant     String   @db.VarChar(20)
   image       String
   sizes       Size[]
   rating      Decimal  @db.Decimal(2, 1)
-  basePrice   Decimal  @db.Decimal(6, 2)
-  mediumPrice Decimal? @db.Decimal(6, 2)
-  largePrice  Decimal? @db.Decimal(6, 2)
+  small   Decimal  @db.Decimal(6, 2)
+  medium Decimal? @db.Decimal(6, 2)
+  large  Decimal? @db.Decimal(6, 2)
 
   orders OrderAndProducts[]
 }
