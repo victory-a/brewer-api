@@ -1,5 +1,7 @@
 import express from 'express';
 
+import prisma from './models/db';
+
 const authRoutes = require('./routes/auth.route');
 const productRoutes = require('./routes/product.route');
 const orderRoutes = require('./routes/order.route');
@@ -9,8 +11,6 @@ const logger = require('./utils/logger');
 
 const errorHandler = require('./middlewares/error.middleware');
 const config = require('./config/index');
-
-const prisma = require('./models/db');
 
 const app = express();
 

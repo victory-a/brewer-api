@@ -5,8 +5,7 @@ import { type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
-
-const prisma = require('../models/db');
+import prisma from '../models/db';
 
 const sendEmailToken = require('../services/emailService');
 

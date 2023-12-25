@@ -3,11 +3,10 @@ import jwt from 'jsonwebtoken';
 import { type User } from '@prisma/client';
 
 import asyncHandler from '../utils/asyncHandler';
+import prisma from '../models/db';
 
 const config = require('../config/index');
 const { errorResponse } = require('../utils/apiResponder');
-
-const prisma = require('../models/db');
 
 type AuthRequest = Request & { user?: User };
 
