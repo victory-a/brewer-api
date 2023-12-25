@@ -20,7 +20,31 @@ const createOrder = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+const getOrder = asyncHandler(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  try {
+    // const product = await prisma.ordeer.findUnique({
+    //   where: {
+    //     id: Number(id)
+    //   }
+    // });
+    // if (!product) {
+    //   errorResponse(res, 'Product not found', 404);
+    // } else {
+    //   successResponse(res, product, 'Product fetched Successfully');
+    // }
+  } catch (error) {
+    errorResponse(res, 'Failed to get product', 400);
+  }
+});
+
+const getAllOrders = asyncHandler(async (req: Request, res: Response) => {});
+
 const updateOrder = asyncHandler(async (req: Request, res: Response) => {});
+
 module.exports = {
-  createOrder
+  createOrder,
+  getAllOrders,
+  getOrder,
+  updateOrder
 };

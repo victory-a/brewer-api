@@ -79,7 +79,8 @@ model Order {
   address     String
   totalPrice  Decimal @db.Decimal(6, 2)
   deliveryFee Decimal @db.Decimal(6, 2)
-
+  
+  status OrderStatus
   products OrderAndProducts[]
 }
 
@@ -92,4 +93,6 @@ model OrderAndProducts {
   productId Int
   product Product @relation(fields: [productId], references: [id])
 
+  quantity Int
+  size Size
 }
