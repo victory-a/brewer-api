@@ -1,5 +1,5 @@
 import { type Response } from 'express';
-const httpStatus = require('http-status');
+import httpStatus from 'http-status';
 
 const ApiResponder = (
   res: Response,
@@ -24,7 +24,7 @@ const successResponse = (res: Response, payload: any = null, message = 'Success'
 const errorResponse = (
   res: Response,
   message = '',
-  statusCode = httpStatus.INTERNAL_SERVER_ERROR
+  statusCode: number = httpStatus.INTERNAL_SERVER_ERROR
 ) => {
   const httpMessage = message ?? httpStatus[statusCode];
 

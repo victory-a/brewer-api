@@ -5,8 +5,7 @@ import { type User } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
-
-const prisma = require('../models/db');
+import prisma from '../models/db';
 
 const sendEmailToken = require('../services/emailService');
 
@@ -26,13 +25,7 @@ function generateJWT(tokenId: number) {
 
 // create user if none and send otp to email
 const login = asyncHandler(async (req: Request, res: Response) => {
-  const { email, username } = req.body;
-
-  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-  if (!email) {
-    errorResponse(res, 'Email is required', 400);
-    return;
-  }
+  const { email } = req.body;
 
   const OTP = generateOTP();
   const expiration = new Date(new Date().getTime() + config.OTP_TOKEN_VALIDITY * 60 * 1000);
@@ -57,8 +50,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
           connectOrCreate: {
             where: { email },
             create: {
-              email,
-              username: username ?? null
+              email
             }
           }
         }
@@ -146,14 +138,6 @@ const currentUser = asyncHandler(async (req: Request & { user?: User }, res: Res
 });
 
 const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
-  const { username, name, mobile } = req.body;
-
-  const updateData = {
-    ...(username && { username }),
-    ...(name && { name }),
-    ...(mobile && { mobile })
-  };
-
   try {
     const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
 
@@ -162,9 +146,7 @@ const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Resp
     } else {
       const updatedUser = await prisma.user.update({
         where: { id: user.id },
-        data: {
-          ...updateData
-        }
+        data: req.body
       });
       successResponse(res, updatedUser, 'Updated User Successfully');
     }

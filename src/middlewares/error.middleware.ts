@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const errorHandler = (err, _, res) => {
   const error = { ...err };
 
@@ -13,4 +12,4 @@ const errorHandler = (err, _, res) => {
   });
 };
 
-module.exports = errorHandler;
+export default errorHandler;

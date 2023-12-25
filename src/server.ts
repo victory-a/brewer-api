@@ -1,16 +1,16 @@
 import express from 'express';
-const { PrismaClient } = require('@prisma/client');
+
+import prisma from './models/db';
+
+import errorHandler from './middlewares/error.middleware';
 
 const authRoutes = require('./routes/auth.route');
 const productRoutes = require('./routes/product.route');
+const orderRoutes = require('./routes/order.route');
 
 const purgeDatabase = require('./scripts/purgeDatabase');
 const logger = require('./utils/logger');
-
-const errorHandler = require('./middlewares/error.middleware');
 const config = require('./config/index');
-
-const prisma = require('./models/db');
 
 const app = express();
 
@@ -21,6 +21,7 @@ const port = config.port ?? 4000;
 app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/product', productRoutes);
+app.use('/order', orderRoutes);
 
 app.use(errorHandler);
 

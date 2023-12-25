@@ -1,10 +1,10 @@
 {
   "name": "brewer-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./src/index.ts",
-    "dev": "nodemon ./src/index.ts",
+    "start": "node ./src/server.ts",
+    "dev": "nodemon ./src/server.ts",
     "migrate": "cross-env MIGRATION_NAME=npx prisma migrate dev --name $MIGRATION_NAME",
     "prepare": "husky install",
     "prisma-studio": "npx prisma studio"
@@ -41,6 +41,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "http-status": "^1.7.3",
+    "joi": "^17.11.0",
     "jsonwebtoken": "^9.0.2",
     "node-cron": "^3.0.3"
   },
