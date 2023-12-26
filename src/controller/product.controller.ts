@@ -9,6 +9,8 @@ import prisma from '../models/db';
 const createProduct = asyncHandler(async (req: Request, res: Response) => {
   const product = req.body as Product;
 
+  console.log({ product });
+
   try {
     const createdProduct = await prisma.product.create({
       data: product
@@ -16,6 +18,7 @@ const createProduct = asyncHandler(async (req: Request, res: Response) => {
 
     successResponse(res, createdProduct, 'Product Created Successfully');
   } catch (error) {
+    console.error(error);
     errorResponse(res, 'Failed to create Product', 400);
   }
 });
@@ -35,6 +38,7 @@ const getProduct = asyncHandler(async (req: Request, res: Response) => {
       successResponse(res, product, 'Product fetched Successfully');
     }
   } catch (error) {
+    console.error(error);
     errorResponse(res, 'Failed to get product', 400);
   }
 });
@@ -45,7 +49,8 @@ const getAllProducts = asyncHandler(async (req: Request, res: Response) => {
 
     successResponse(res, products, 'Products fetched Successfully');
   } catch (error) {
-    errorResponse(res, 'Failed to products', 400);
+    console.error(error);
+    errorResponse(res, 'Failed to get all products', 400);
   }
 });
 
