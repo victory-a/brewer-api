@@ -49,8 +49,4 @@ const getAllProducts = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-module.exports = {
-  createProduct,
-  getProduct,
-  getAllProducts
-};
+export { createProduct, getProduct, getAllProducts };

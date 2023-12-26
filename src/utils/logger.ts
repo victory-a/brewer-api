@@ -10,4 +10,4 @@ function logger(app: Express) {
   process.env.NODE_ENV === 'development' && app.use(morgan(':method :url'));
 }
 
-module.exports = logger;
+export default logger;

@@ -7,9 +7,9 @@ import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
 import prisma from '../models/db';
 
-const sendEmailToken = require('../services/emailService');
+import sendEmailToken from '../services/emailService';
 
-const config = require('../config/index');
+import config from '../config/index';
 
 function generateOTP() {
   return Math.floor(1000 + Math.random() * 9000).toString();
@@ -155,9 +155,4 @@ const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Resp
   }
 });
 
-module.exports = {
-  login,
-  authenticate,
-  currentUser,
-  updateUser
-};
+export { login, authenticate, currentUser, updateUser };

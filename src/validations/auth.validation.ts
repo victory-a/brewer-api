@@ -2,13 +2,13 @@ import Joi from 'joi';
 
 const loginValidation = {
   body: Joi.object().keys({
-    email: Joi.string().required()
+    email: Joi.string().email().required()
   })
 };
 
 const authenticateValidation = {
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     otp: Joi.string()
       .length(4)
       .pattern(/^[0-9]+$/)
