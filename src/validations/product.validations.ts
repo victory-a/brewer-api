@@ -16,4 +16,10 @@ const createProductValidation = {
   })
 };
 
-export { createProductValidation };
+const getAProduct = {
+  params: Joi.object().keys({
+    id: Joi.string().required()
+  })
+};
+
+export { createProductValidation, getAProduct };
