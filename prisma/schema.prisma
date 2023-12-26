@@ -57,6 +57,7 @@ model Product {
   image       String
   sizes       Size[]
   rating      Decimal  @db.Decimal(2, 1)
+  basePrice   Decimal  @db.Decimal(6, 2)
   small   Decimal  @db.Decimal(6, 2)
   medium Decimal? @db.Decimal(6, 2)
   large  Decimal? @db.Decimal(6, 2)
