@@ -155,4 +155,17 @@ const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Resp
   }
 });
 
-export { login, authenticate, currentUser, updateUser };
+const logout = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
+  try {
+    await prisma.token.updateMany({
+      where: { userId: req.user?.id },
+      data: { valid: false, expiration: new Date() }
+    });
+
+    successResponse(res, null, 'Logged out Successfully');
+  } catch (error) {
+    errorResponse(res, 'Failed to logout User', 400);
+  }
+});
+
+export { login, authenticate, currentUser, updateUser, logout };
