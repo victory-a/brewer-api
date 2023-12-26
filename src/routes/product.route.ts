@@ -6,9 +6,10 @@ import validate from '../middlewares/validate.middleware';
 import { createProductValidation, getAProduct } from '../validations/product.validations';
 const router = Router();
 
-router.post('/create', protect, validate(createProductValidation), createProduct);
+router.use(protect);
+router.post('/create', validate(createProductValidation), createProduct);
 
-router.get('/', protect, getAllProducts);
-router.get('/:id', protect, validate(getAProduct), getProduct);
+router.get('/', getAllProducts);
+router.get('/:id', validate(getAProduct), getProduct);
 
 export default router;
