@@ -14,9 +14,7 @@ const validate = (schema: any) => (req: Request, res: Response, next: NextFuncti
 
   if (error) {
     const errorMessage = error.details.map((details) => details.message).join(', ');
-    // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-    next(errorResponse(res, errorMessage, httpStatus.BAD_REQUEST));
-    return;
+    errorResponse(res, errorMessage, httpStatus.BAD_REQUEST);
   }
   Object.assign(req, value);
   next();
