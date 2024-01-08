@@ -140,7 +140,6 @@ const currentUser = asyncHandler(async (req: Request & { user?: User }, res: Res
 const updateUser = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
   try {
     const user = await prisma.user.findUnique({ where: { id: req.user?.id } });
-
     if (!user) {
       errorResponse(res, 'User not found', 404);
     } else {
