@@ -116,7 +116,6 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
             }
           }
         });
-        console.log({ apiToken });
 
         const token = generateJWT(apiToken.id);
 
