@@ -23,7 +23,9 @@ const updateUserValidation = {
   body: Joi.object().keys({
     username: Joi.string().max(20),
     name: Joi.string().max(20),
-    mobile: Joi.string().pattern(internationalPhoneNumberRegex)
+    mobile: Joi.string().pattern(internationalPhoneNumberRegex).allow(null, '').messages({
+      'string.pattern.base': 'Please enter a valid international phone number format'
+    })
   })
 };
 
