@@ -1,5 +1,11 @@
 import { Router } from 'express';
 import { protect } from '../middlewares/auth.middleware';
+import validate from '../middlewares/validate.middleware';
+import {
+  createOrderValidation,
+  getAnOrderValidation,
+  updateAnOrderValidation
+} from '../validations/order.validations';
 
 import {
   createOrder,
@@ -7,14 +13,15 @@ import {
   getOrder,
   updateOrderStatus
 } from '../controller/order.controller';
+
 const router = Router();
 
-router.post('/create', protect, createOrder);
+router.use(protect);
+router.get('/', getAllOrders);
+router.get('/:id', validate(getAnOrderValidation), getOrder);
 
-router.get('/', protect, getAllOrders);
+router.post('/create', validate(createOrderValidation), createOrder);
 
-router.get('/:id', protect, getOrder);
-
-router.put('/status/:id', protect, updateOrderStatus);
+router.patch('/status/:id', validate(updateAnOrderValidation), updateOrderStatus);
 
 export default router;
