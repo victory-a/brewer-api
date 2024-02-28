@@ -16,7 +16,7 @@ const loadData = async () => {
     console.log('✅ Data Loaded ...');
     process.exit();
   } catch (error) {
-    console.log(`❌ Failed to seed data, ${error as any}`);
+    console.error('❌ Failed to seed data', error);
   }
 };
 
@@ -27,7 +27,7 @@ const deleteData = async () => {
     console.log('✅ Data Destroyed ...');
     process.exit();
   } catch (error) {
-    console.log(`❌ Failed to destroy data, ${error as any}`);
+    console.error('❌ Failed to destroy data', error);
   }
 };
 
