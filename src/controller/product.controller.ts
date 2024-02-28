@@ -45,9 +45,11 @@ const getProduct = asyncHandler(async (req: Request, res: Response) => {
 
 const getAllProducts = asyncHandler(async (req: Request, res: Response) => {
   try {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({
+      select: { id: true, name: true, variant: true, image: true, basePrice: true }
+    });
 
-    successResponse(res, products, 'Products fetched Successfully');
+    successResponse(res, { products, count: products.length }, 'Products fetched Successfully');
   } catch (error) {
     console.error(error);
     errorResponse(res, 'Failed to get all products', 400);

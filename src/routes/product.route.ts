@@ -4,6 +4,7 @@ import { createProduct, getProduct, getAllProducts } from '../controller/product
 import { protect } from '../middlewares/auth.middleware';
 import validate from '../middlewares/validate.middleware';
 import { createProductValidation, getAProduct } from '../validations/product.validations';
+
 const router = Router();
 
 router.use(protect);

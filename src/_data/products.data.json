@@ -7,8 +7,9 @@
     "sizes": ["small", "medium", "large"],
     "rating": 3.5,
     "basePrice": 1.33,
-    "mediumPrice": 0.5,
-    "largePrice": 0.8
+    "small": 0.2,
+    "medium": 0.5,
+    "large": 0.8
   },
   {
     "name": "coffee 2",
@@ -16,10 +17,11 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 4.3,
     "basePrice": 1.8,
-    "mediumPrice": 0.2,
-    "largePrice": 0.4
+    "small": 0.2,
+    "medium": 0.2,
+    "large": 0.4
   },
   {
     "name": "coffee 3",
@@ -27,10 +29,11 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 1.5,
     "basePrice": 1.5,
-    "mediumPrice":0.4,
-    "largePrice": 0.7
+    "small": 0.2,
+    "medium": 0.4,
+    "large": 0.7
   },
   {
     "name": "coffee 4",
@@ -38,10 +41,11 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 2.5,
     "basePrice": 2,
-    "mediumPrice": 0.4,
-    "largePrice": 0.5
+    "small": 0.2,
+    "medium": 0.4,
+    "large": 0.5
   },
   {
     "name": "coffee 5",
@@ -51,8 +55,9 @@
     "sizes": ["small", "medium", "large"],
     "rating": 3.5,
     "basePrice": 1.33,
-    "mediumPrice": 0.9,
-    "largePrice": 1
+    "small": 0.2,
+    "medium": 0.9,
+    "large": 1
   },
   {
     "name": "coffee 6",
@@ -60,10 +65,11 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 5,
     "basePrice": 1.8,
-    "mediumPrice": 1.2,
-    "largePrice": 1.9
+    "small": 0.2,
+    "medium": 1.2,
+    "large": 1.9
   },
   {
     "name": "coffee 7",
@@ -71,10 +77,11 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 5,
     "basePrice": 3,
-    "mediumPrice": 0.6,
-    "largePrice": 0.9
+    "small": 0.2,
+    "medium": 0.6,
+    "large": 0.9
   },
   {
     "name": "coffee 8",
@@ -82,10 +89,11 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 2,
     "basePrice": 1.33,
-    "mediumPrice": 0.4,
-    "largePrice": 1
+    "small": 0.2,
+    "medium": 0.4,
+    "large": 1
   },
   {
     "name": "coffee 9",
@@ -95,8 +103,9 @@
     "sizes": ["small", "medium", "large"],
     "rating": 3.5,
     "basePrice": 1.33,
-    "mediumPrice": 0.5,
-    "largePrice": 1
+    "small": 0.2,
+    "medium": 0.5,
+    "large": 1
   },
   {
     "name": "coffee 10",
@@ -104,9 +113,10 @@
     "variant": "milk",
     "image": "http://google.com",
     "sizes": ["small", "medium", "large"],
-    "rating": 3.5,
+    "rating": 4.5,
     "basePrice": 1.33,
-    "mediumPrice": 1.8,
-    "largePrice": 2
+    "small": 0.2,
+    "medium": 1.8,
+    "large": 2
   }
 ]

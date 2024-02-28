@@ -4,10 +4,12 @@
   "main": "server.js",
   "scripts": {
     "start": "node ./src/server.ts",
-    "dev": "nodemon ./src/server.ts",
+    "dev": "nodemon ./src/server.ts & yarn prisma-studio ",
     "migrate": "cross-env MIGRATION_NAME=npx prisma migrate dev --name $MIGRATION_NAME",
     "prepare": "husky install",
-    "prisma-studio": "npx prisma studio"
+    "prisma-studio": "npx prisma studio",
+    "seed-data": "node ./src/scripts/seeder.ts -i",
+    "unseed-data": "node ./src/scripts/seeder.ts -d"
   },
   "license": "MIT",
   "devDependencies": {
