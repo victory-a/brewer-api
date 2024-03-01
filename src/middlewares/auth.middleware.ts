@@ -15,7 +15,7 @@ export const protect = asyncHandler(async (req: AuthRequest, res: Response, next
   const jwtToken = authHeader?.split(' ')[1];
 
   if (!jwtToken) {
-    errorResponse(res, 'Internal Server Error', 500);
+    errorResponse(res, 'Unauthorized', 401);
     return;
   }
 

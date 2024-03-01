@@ -79,7 +79,6 @@ model Order {
 
   address     String
   totalPrice  Decimal @db.Decimal(6, 2)
-  deliveryFee Decimal @db.Decimal(6, 2)
   
   status OrderStatus
   products OrderAndProducts[]
