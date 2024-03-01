@@ -118,10 +118,13 @@ const getAllOrders = asyncHandler(
         orders = await prisma.order.findMany({
           where: {
             status: req.query.order_status
-          }
+          },
+          select: { id: true, createdAt: true, status: true, totalPrice: true }
         });
       } else {
-        orders = await prisma.order.findMany();
+        orders = await prisma.order.findMany({
+          select: { id: true, createdAt: true, status: true, totalPrice: true }
+        });
       }
 
       successResponse(res, { orders, count: orders.length }, 'Orders fetched Successfully');
