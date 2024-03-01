@@ -9,8 +9,6 @@ import prisma from '../models/db';
 const createProduct = asyncHandler(async (req: Request, res: Response) => {
   const product = req.body as Product;
 
-  console.log({ product });
-
   try {
     const createdProduct = await prisma.product.create({
       data: product
