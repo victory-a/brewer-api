@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express';
-import { type Product, type Size } from '@prisma/client';
+import { type Product, type Size, type OrderStatus } from '@prisma/client';
 
 import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
@@ -109,15 +109,27 @@ const getOrder = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const getAllOrders = asyncHandler(async (req: Request, res: Response) => {
-  try {
-    const orders = await prisma.order.findMany();
+const getAllOrders = asyncHandler(
+  async (req: Request & { query?: { order_status?: OrderStatus } }, res: Response) => {
+    try {
+      let orders;
 
-    successResponse(res, { orders, count: orders.length }, 'Orders fetched Successfully');
-  } catch (error) {
-    errorResponse(res, 'Failed to Orders', 400);
+      if (req.query?.order_status) {
+        orders = await prisma.order.findMany({
+          where: {
+            status: req.query.order_status
+          }
+        });
+      } else {
+        orders = await prisma.order.findMany();
+      }
+
+      successResponse(res, { orders, count: orders.length }, 'Orders fetched Successfully');
+    } catch (error) {
+      errorResponse(res, 'Failed to Orders', 400);
+    }
   }
-});
+);
 
 const updateOrderStatus = asyncHandler(async (req: Request, res: Response) => {});
 

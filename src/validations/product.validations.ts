@@ -15,10 +15,10 @@ const createProductValidation = {
   })
 };
 
-const getAProduct = {
+const getAProductValidation = {
   params: Joi.object().keys({
     id: Joi.string().required()
   })
 };
 
-export { createProductValidation, getAProduct };
+export { createProductValidation, getAProductValidation };

@@ -3,6 +3,7 @@ import { protect } from '../middlewares/auth.middleware';
 import validate from '../middlewares/validate.middleware';
 import {
   createOrderValidation,
+  getAllOrdersValidation,
   getAnOrderValidation,
   updateAnOrderValidation
 } from '../validations/order.validations';
@@ -17,7 +18,7 @@ import {
 const router = Router();
 
 router.use(protect);
-router.get('/', getAllOrders);
+router.get('/', validate(getAllOrdersValidation), getAllOrders);
 router.get('/:id', validate(getAnOrderValidation), getOrder);
 
 router.post('/create', validate(createOrderValidation), createOrder);

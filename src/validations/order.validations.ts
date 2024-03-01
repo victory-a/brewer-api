@@ -1,4 +1,4 @@
-import { Size } from '@prisma/client';
+import { OrderStatus, Size } from '@prisma/client';
 import Joi from 'joi';
 
 const createOrderValidation = {
@@ -26,4 +26,15 @@ const getAnOrderValidation = {
   })
 };
 
-export { createOrderValidation, updateAnOrderValidation, getAnOrderValidation };
+const getAllOrdersValidation = {
+  query: Joi.object().keys({
+    order_status: Joi.string().valid(...Object.values(OrderStatus))
+  })
+};
+
+export {
+  createOrderValidation,
+  updateAnOrderValidation,
+  getAnOrderValidation,
+  getAllOrdersValidation
+};
