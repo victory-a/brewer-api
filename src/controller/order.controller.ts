@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express';
-import { type Product, type Size, type OrderStatus } from '@prisma/client';
+import { type Product, type Size, type OrderStatus, Order } from '@prisma/client';
 
 import { successResponse, errorResponse } from '../utils/apiResponder';
 import asyncHandler from '../utils/asyncHandler';
@@ -32,7 +32,8 @@ const createOrder = asyncHandler(async (req: Request, res: Response) => {
         basePrice: true,
         small: true,
         medium: true,
-        large: true
+        large: true,
+        image: true
       }
     })) as Product[];
 
@@ -97,14 +98,41 @@ const getOrder = asyncHandler(async (req: Request, res: Response) => {
     const order = await prisma.order.findUnique({
       where: {
         id: Number(id)
+      },
+      include: {
+        products: {
+          include: {
+            product: true
+          }
+        }
       }
     });
     if (!order) {
       errorResponse(res, 'Order not found', 404);
     } else {
-      successResponse(res, order, 'Order fetched Successfully');
+      const orderWithProducts = {
+        id: order.id,
+        createdAt: order.createdAt,
+        updatedAt: order.updatedAt,
+        address: order.address,
+        totalPrice: order.totalPrice,
+        status: order.status,
+        products: order.products.map((op: any) => {
+          return {
+            productId: op.productId,
+            size: op.size,
+            quantity: op.quantity,
+            image: op.product.image,
+            basePrice: op.product.basePrice,
+            unitPrice: op.product[op.size],
+            variant: op.product.variant
+          };
+        })
+      };
+      successResponse(res, orderWithProducts, 'Order fetched Successfully');
     }
   } catch (error) {
+    console.log({ error });
     errorResponse(res, 'Failed to get Order', 400);
   }
 });
