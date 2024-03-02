@@ -120,11 +120,12 @@ const getOrder = asyncHandler(async (req: Request, res: Response) => {
         products: order.products.map((op: any) => {
           return {
             productId: op.productId,
+            name: op.product.name,
             size: op.size,
             quantity: op.quantity,
             image: op.product.image,
             basePrice: op.product.basePrice,
-            unitPrice: op.product[op.size],
+            selectedSizePrice: op.product[op.size],
             variant: op.product.variant
           };
         })
