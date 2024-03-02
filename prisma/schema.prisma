@@ -23,6 +23,8 @@ model User {
   mobile   String?
 
   tokens Token[]
+
+  orders Order[]
 }
 
 model Token {
@@ -76,6 +78,9 @@ model Order {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 
   address     String
   totalPrice  Decimal @db.Decimal(6, 2)
