@@ -19,22 +19,18 @@ export const protect = asyncHandler(async (req: AuthRequest, res: Response, next
     return;
   }
 
-  try {
-    const payload = jwt.verify(jwtToken, config.JWT_SECRET) as unknown as { tokenId: number };
+  const payload = jwt.verify(jwtToken, config.JWT_SECRET) as unknown as { tokenId: number };
 
-    const dbToken = await prisma.token.findUnique({
-      where: { id: payload.tokenId },
-      include: { user: true }
-    });
+  const dbToken = await prisma.token.findUnique({
+    where: { id: payload.tokenId },
+    include: { user: true }
+  });
 
-    if (!dbToken?.valid || dbToken.expiration < new Date()) {
-      errorResponse(res, 'UnAuthorized', 401);
-      return;
-    }
-
-    req.user = dbToken?.user;
-    next();
-  } catch (error) {
+  if (!dbToken?.valid || dbToken.expiration < new Date()) {
     errorResponse(res, 'UnAuthorized', 401);
+    return;
   }
+
+  req.user = dbToken?.user;
+  next();
 });

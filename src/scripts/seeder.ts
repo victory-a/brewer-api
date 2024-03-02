@@ -22,7 +22,9 @@ const loadData = async () => {
 
 const deleteData = async () => {
   try {
+    await prisma.orderAndProducts.deleteMany();
     await prisma.product.deleteMany();
+    await prisma.order.deleteMany();
 
     console.log('✅ Data Destroyed ...');
     process.exit();
