@@ -23,6 +23,6 @@ router.get('/:id', validate(getAnOrderValidation), getOrder);
 
 router.post('/create', validate(createOrderValidation), createOrder);
 
-router.patch('/status/:id', validate(updateAnOrderValidation), updateOrderStatus);
+router.patch('/:id', validate(updateAnOrderValidation), updateOrderStatus);
 
 export default router;
