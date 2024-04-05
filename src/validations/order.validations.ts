@@ -17,7 +17,12 @@ const createOrderValidation = {
 };
 
 const updateAnOrderValidation = {
-  body: Joi.object().keys({})
+  params: Joi.object().keys({
+    id: Joi.string().required()
+  }),
+  body: Joi.object().keys({
+    order_status: Joi.string().valid(...Object.values(OrderStatus))
+  })
 };
 
 const getAnOrderValidation = {

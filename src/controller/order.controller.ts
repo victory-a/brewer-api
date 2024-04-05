@@ -80,7 +80,7 @@ const createOrder = asyncHandler(async (req: Request & { user?: User }, res: Res
 
   // Update order total price
   const createdOrder = await prisma.order.update({
-    where: { id: newOrder.id },
+    where: { id: newOrder.id, userId: req.user?.id },
     data: {
       totalPrice
     }
@@ -88,11 +88,12 @@ const createOrder = asyncHandler(async (req: Request & { user?: User }, res: Res
   successResponse(res, createdOrder, 'Order created Successfully');
 });
 
-const getOrder = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+const getOrder = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
   const id = req.params.id;
   const order = await prisma.order.findUnique({
     where: {
-      id: Number(id)
+      id: Number(id),
+      userId: req.user?.id
     },
     include: {
       products: {
@@ -129,27 +130,40 @@ const getOrder = asyncHandler(async (req: Request, res: Response, next: NextFunc
   }
 });
 
-const getAllOrders = asyncHandler(
-  async (req: Request & { query?: { order_status?: OrderStatus } }, res: Response) => {
-    let orders;
+interface IRequest extends Request {
+  query: { order_status?: OrderStatus };
+  user?: User;
+}
 
-    if (req.query?.order_status) {
-      orders = await prisma.order.findMany({
-        where: {
-          status: req.query.order_status
-        },
-        select: { id: true, createdAt: true, status: true, totalPrice: true }
-      });
-    } else {
-      orders = await prisma.order.findMany({
-        select: { id: true, createdAt: true, status: true, totalPrice: true }
-      });
-    }
+const getAllOrders = asyncHandler(async (req: IRequest, res: Response) => {
+  let orders;
 
-    successResponse(res, { orders, count: orders.length }, 'Orders fetched Successfully');
+  if (req.query?.order_status) {
+    orders = await prisma.order.findMany({
+      where: {
+        userId: req.user?.id,
+        status: req.query.order_status
+      },
+      select: { id: true, createdAt: true, status: true, totalPrice: true },
+      orderBy: { createdAt: 'desc' }
+    });
+  } else {
+    orders = await prisma.order.findMany({
+      select: { id: true, createdAt: true, status: true, totalPrice: true },
+      orderBy: { createdAt: 'desc' }
+    });
   }
-);
 
-const updateOrderStatus = asyncHandler(async (req: Request, res: Response) => {});
+  successResponse(res, { orders, count: orders.length }, 'Orders fetched Successfully');
+});
+
+const updateOrderStatus = asyncHandler(async (req: Request & { user?: User }, res: Response) => {
+  const order = await prisma.order.update({
+    where: { id: Number(req.params.id), userId: req.user?.id },
+    data: { status: req.body.order_status }
+  });
+
+  successResponse(res, order, 'Order updated Successfully');
+});
 
 export { createOrder, getAllOrders, getOrder, updateOrderStatus };
