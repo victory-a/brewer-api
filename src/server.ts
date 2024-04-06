@@ -27,16 +27,7 @@ const port = config.port ?? 4000;
 app.use(helmet()); // set security HTTP headers
 app.use(xss()); // prevent XXS attacks
 app.use(cors()); // Enable cors
-app.use(hpp()); // prebent parameter pollution
-
-// enable cors
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH');
-  res.header('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type');
-
-  next();
-});
+app.use(hpp()); // prevent parameter pollution
 
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
