@@ -31,10 +31,26 @@ const getProduct = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-const getAllProducts = asyncHandler(async (req: Request, res: Response) => {
-  const products = await prisma.product.findMany({
-    select: { id: true, name: true, variant: true, image: true, basePrice: true }
-  });
+interface IRequest extends Request {
+  query: { product_name?: string };
+}
+
+const getAllProducts = asyncHandler(async (req: IRequest, res: Response) => {
+  let products;
+  if (req.query.product_name) {
+    products = await prisma.product.findMany({
+      where: {
+        name: {
+          contains: req.query.product_name
+        }
+      },
+      select: { id: true, name: true, variant: true, image: true, basePrice: true }
+    });
+  } else {
+    products = await prisma.product.findMany({
+      select: { id: true, name: true, variant: true, image: true, basePrice: true }
+    });
+  }
 
   successResponse(res, { products, count: products.length }, 'Products fetched Successfully');
 });

@@ -21,4 +21,10 @@ const getAProductValidation = {
   })
 };
 
-export { createProductValidation, getAProductValidation };
+const getAllProductsValidation = {
+  query: Joi.object().keys({
+    product_name: Joi.string()
+  })
+};
+
+export { createProductValidation, getAProductValidation, getAllProductsValidation };
