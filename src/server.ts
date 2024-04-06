@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from 'helmet';
 
 import prisma from './models/db';
 
@@ -12,13 +13,40 @@ import purgeDatabase from './scripts/purgeDatabase';
 import logger from './utils/logger';
 import config from './config/index';
 
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+
 const app = express();
 
 logger(app);
 
 const port = config.port ?? 4000;
 
-app.use(express.json());
+app.use(helmet()); // set security HTTP headers
+app.use(xss()); // prevent XXS attacks
+app.use(cors()); // Enable cors
+app.use(hpp()); // prebent parameter pollution
+
+// enable cors
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type');
+
+  next();
+});
+
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100 // 100 requests per IP
+});
+
+app.use(limiter); // Rate limiting
+
+app.use(express.json({ limit: '5mb' }));
+
 app.use('/auth', authRoutes);
 app.use('/product', productRoutes);
 app.use('/order', orderRoutes);

@@ -23,6 +23,6 @@ router.patch('/update-user', protect, validate(updateUserValidation), updateUser
 
 router.get('/current-user', protect, currentUser);
 
-router.post('/logout', protect, logout);
+router.get('/logout', protect, logout);
 
 export default router;
