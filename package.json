@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node ./src/server.ts",
+    "start": "ts-node ./src/server.ts",
     "dev": "nodemon ./src/server.ts & yarn prisma-studio ",
     "migrate": "cross-env MIGRATION_NAME=npx prisma migrate dev --name $MIGRATION_NAME",
     "prepare": "husky install",
