@@ -38,6 +38,10 @@ app.use(limiter); // Rate limiting
 
 app.use(express.json({ limit: '5mb' }));
 
+app.get('/', (req, res) => {
+  res.send('Hello world!');
+});
+
 app.use('/auth', authRoutes);
 app.use('/product', productRoutes);
 app.use('/order', orderRoutes);
