@@ -56,9 +56,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     }
   });
 
-  console.log({ createdToken });
-
-  // await sendEmailToken({ email, token: OTP });
+  await sendEmailToken({ email, token: OTP });
 
   successResponse(res, null, 'Successful, check email for token');
 });
