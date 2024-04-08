@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon ./src/server.ts & yarn prisma-studio ",
     "build": "tsc",
-    "start": "npm run build && node build/server.js",
+    "start": "yarn build && node build/server.js",
     "migrate": "cross-env MIGRATION_NAME=npx prisma migrate dev --name $MIGRATION_NAME",
     "prepare": "husky install",
     "prisma-studio": "npx prisma studio",
