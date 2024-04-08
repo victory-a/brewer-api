@@ -56,7 +56,11 @@ const login = asyncHandler(async (req: Request, res: Response) => {
     }
   });
 
-  await sendEmailToken({ email, token: OTP });
+  if (process.env.NODE_ENV === 'development') {
+    console.log({ createdToken });
+  } else {
+    await sendEmailToken({ email, token: OTP });
+  }
 
   successResponse(res, null, 'Successful, check email for token');
 });
