@@ -103,8 +103,6 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
         new Date().getTime() + config.JWT_TOKEN_VALIDITY * 60 * 60 * 1000
       );
 
-      console.log('Expiration date:', expiration);
-
       const apiToken = await prisma.token.create({
         data: {
           type: 'JWT',
