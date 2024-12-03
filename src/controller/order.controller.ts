@@ -115,8 +115,8 @@ const getOrder = asyncHandler(async (req: Request & { user?: User }, res: Respon
       status: order.status,
       products: order.products.map((op: any) => {
         return {
-          productId: op.productId,
           name: op.product.name,
+          productId: op.productId,
           size: op.size,
           quantity: op.quantity,
           image: op.product.image,
